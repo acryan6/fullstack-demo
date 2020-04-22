@@ -2,6 +2,7 @@ import React from 'react';
 import Nav from './Nav.jsx';
 import BugTile from './BugTile.jsx';
 import exampleData from '../example-data/exampleData';
+import moduleName from './BugReport.jsx'
 
 import '../styles/App.scss';
 
@@ -9,14 +10,16 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      filter: 'None',
+      filter: exampleData,
       bugs: exampleData,
     };
     this.filterHandler = this.filterHandler.bind(this);
   }
 
   filterHandler(filter) {
-    this.setState({ filter });
+    this.setState({
+      filter: filter === 'None' ? this.state.bugs : this.state.bugs.filter(bug => bug.threatLevel === filter),
+    });
   }
 
   render() {
@@ -25,7 +28,7 @@ class App extends React.Component {
         <Nav
           filterHandler={this.filterHandler}
         />
-        {this.state.bugs.map((bug) => (
+        {this.state.filter.map((bug) => (
           <BugTile
             bugName={bug.bugName}
             bugDescription={bug.bugDescription}
