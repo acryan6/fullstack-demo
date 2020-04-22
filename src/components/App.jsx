@@ -12,6 +12,12 @@ class App extends React.Component {
     this.state = {
       filter: exampleData,
       bugs: exampleData,
+      bugReport: {
+        reporter: '',
+        assignedTo: '',
+        threatLevel: 'Low-Priority',
+        description: '',
+      }
     };
     this.filterHandler = this.filterHandler.bind(this);
   }
@@ -20,6 +26,38 @@ class App extends React.Component {
     this.setState({
       filter: filter === 'None' ? this.state.bugs : this.state.bugs.filter(bug => bug.threatLevel === filter),
     });
+  }
+
+  handleChange(e) {
+    if (e.target.name === 'reporter') {
+      this.setState(prevState => ({
+        bugReport: {
+          ...prevState.bugReport,
+          reporter: e.target.value
+        },
+      }));
+    } else if (e.target.name === 'assignedTo') {
+      this.setState(prevState => ({
+        bugReport: {
+          ...prevState.bugReport,
+          assignedTo: e.target.value
+        },
+      }));
+    } else if (e.target.name === 'threatLevel') {
+      this.setState(prevState => ({
+        bugReport: {
+          ...prevState.bugReport,
+          threatLevel: e.target.value
+        },
+      }));
+    } else if (e.target.name === 'description') {
+      this.setState(prevState => ({
+        bugReport: {
+          ...prevState.bugReport,
+          description: e.target.value
+        },
+      }));
+    }
   }
 
   render() {
@@ -40,6 +78,7 @@ class App extends React.Component {
           />
         ))}
       </table>
+      <BugReport handleChange={this.handleChange} />
     );
   }
 }

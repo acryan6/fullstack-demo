@@ -1,7 +1,7 @@
 import React from 'react';
 
 const BugReport = (props) => (
-  <form>
+  <form onSubmit={props.handleSubmit}>
     <label>
       Reporter's name:
       <input
@@ -24,7 +24,7 @@ const BugReport = (props) => (
 
     <label>
       Threat Level &nbsp;
-      <select onChange={(e) => props.filterHandler(e.target.value)}>
+      <select name="threatLevel" onChange={(e) => props.filterHandler(e.target.value)}>
         <option value="Low-Priority">Low-Priority</option>
         <option value="Important">Important</option>
         <option value="Critical">Critical</option>
@@ -33,11 +33,20 @@ const BugReport = (props) => (
     </label>
 
     <label>
+      Description:
       <input
         name="description"
         type="text"
         onChange={props.handleChange}
         required
+      />
+    </label>
+
+    <label>
+      Submit new threat:
+      <input
+        type="submit"
+        value="submit"
       />
     </label>
   </form>
