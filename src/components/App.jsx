@@ -2,7 +2,7 @@ import React from 'react';
 import Nav from './Nav.jsx';
 import BugTile from './BugTile.jsx';
 import exampleData from '../example-data/exampleData';
-import BugReport from './BugReport.jsx'
+import BugReport from './BugReport.jsx';
 
 import '../styles/App.scss';
 
@@ -17,7 +17,7 @@ class App extends React.Component {
         assignedTo: '',
         threatLevel: 'Low-Priority',
         bugDescription: '',
-      }
+      },
     };
     this.filterHandler = this.filterHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -36,28 +36,28 @@ class App extends React.Component {
       this.setState(prevState => ({
         bugReport: {
           ...prevState.bugReport,
-          reportedBy: e.target.value
+          reportedBy: e.target.value,
         },
       }), () => console.log(this.state.bugReport));
     } else if (e.target.name === 'assignedTo') {
       this.setState(prevState => ({
         bugReport: {
           ...prevState.bugReport,
-          assignedTo: e.target.value
+          assignedTo: e.target.value,
         },
       }), () => console.log(this.state.bugReport));
     } else if (e.target.name === 'threatLevel') {
       this.setState(prevState => ({
         bugReport: {
           ...prevState.bugReport,
-          threatLevel: e.target.value
+          threatLevel: e.target.value,
         },
       }), () => console.log(this.state.bugReport));
     } else if (e.target.name === 'description') {
       this.setState(prevState => ({
         bugReport: {
           ...prevState.bugReport,
-          bugDescription: e.target.value
+          bugDescription: e.target.value,
         },
       }), () => console.log(this.state.bugReport));
     }
@@ -71,6 +71,10 @@ class App extends React.Component {
         ...this.state.bugReport,
         id: this.state.bugs.length + 1,
 
+      }],
+      filter: [...this.state.bugs, {
+        ...this.state.bugReport,
+        id: this.state.bugs.length + 1,
       }],
     });
   }
