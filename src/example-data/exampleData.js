@@ -47,6 +47,14 @@ const exampleData = [
     assignedTo: 'Surj',
     threatLevel: 'Critical',
   },
+  {
+    bugName: '7',
+    bugDescription: 'Goldenface is threatening to blow up the NHL All-star game',
+    reportedBy: 'POTUS',
+    createdDate: '4/22/2020',
+    assignedTo: 'Michael Scarn',
+    threatLevel: 'Midnight',
+  }
 ];
 
 export default exampleData;
