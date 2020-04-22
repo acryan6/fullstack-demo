@@ -11,7 +11,7 @@ const BugReport = (props) => (
         required
       />
     </label>
-
+    <br />
     <label>
       Assigned to:
       <input
@@ -21,17 +21,17 @@ const BugReport = (props) => (
         required
       />
     </label>
-
+    <br />
     <label>
       Threat Level &nbsp;
-      <select name="threatLevel" onChange={(e) => props.filterHandler(e.target.value)}>
+      <select name="threatLevel" onChange={props.handleChange}>
         <option value="Low-Priority">Low-Priority</option>
         <option value="Important">Important</option>
         <option value="Critical">Critical</option>
         <option value="Midnight">Midnight</option>
       </select>
     </label>
-
+    <br />
     <label>
       Description:
       <input
@@ -41,12 +41,12 @@ const BugReport = (props) => (
         required
       />
     </label>
-
+    <br />
     <label>
       Submit new threat:
       <input
         type="submit"
-        value="submit"
+        value="Submit"
       />
     </label>
   </form>

@@ -2,7 +2,7 @@ import React from 'react';
 import Nav from './Nav.jsx';
 import BugTile from './BugTile.jsx';
 import exampleData from '../example-data/exampleData';
-import moduleName from './BugReport.jsx'
+import BugReport from './BugReport.jsx'
 
 import '../styles/App.scss';
 
@@ -13,13 +13,15 @@ class App extends React.Component {
       filter: exampleData,
       bugs: exampleData,
       bugReport: {
-        reporter: '',
+        reportedBy: '',
         assignedTo: '',
         threatLevel: 'Low-Priority',
-        description: '',
+        bugDescription: '',
       }
     };
     this.filterHandler = this.filterHandler.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   filterHandler(filter) {
@@ -29,56 +31,73 @@ class App extends React.Component {
   }
 
   handleChange(e) {
+    e.persist();
     if (e.target.name === 'reporter') {
       this.setState(prevState => ({
         bugReport: {
           ...prevState.bugReport,
-          reporter: e.target.value
+          reportedBy: e.target.value
         },
-      }));
+      }), () => console.log(this.state.bugReport));
     } else if (e.target.name === 'assignedTo') {
       this.setState(prevState => ({
         bugReport: {
           ...prevState.bugReport,
           assignedTo: e.target.value
         },
-      }));
+      }), () => console.log(this.state.bugReport));
     } else if (e.target.name === 'threatLevel') {
       this.setState(prevState => ({
         bugReport: {
           ...prevState.bugReport,
           threatLevel: e.target.value
         },
-      }));
+      }), () => console.log(this.state.bugReport));
     } else if (e.target.name === 'description') {
       this.setState(prevState => ({
         bugReport: {
           ...prevState.bugReport,
-          description: e.target.value
+          bugDescription: e.target.value
         },
-      }));
+      }), () => console.log(this.state.bugReport));
     }
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    console.log('submit');
+    this.setState({
+      bugs: [...this.state.bugs, {
+        ...this.state.bugReport,
+        id: this.state.bugs.length + 1,
+
+      }],
+    });
   }
 
   render() {
     return (
-      <table>
-        <Nav
-          filterHandler={this.filterHandler}
-        />
-        {this.state.filter.map((bug) => (
-          <BugTile
-            bugName={bug.bugName}
-            bugDescription={bug.bugDescription}
-            reportedBy={bug.reportedBy}
-            createdDate={bug.createdDate}
-            assignedTo={bug.assignedTo}
-            threatLevel={bug.threatLevel}
-            key={bug.bugName}
+      <div>
+        <table>
+          <Nav
+            filterHandler={this.filterHandler}
           />
-        ))}
-      </table>
-      <BugReport handleChange={this.handleChange} />
+          {this.state.filter.map((bug) => (
+            <BugTile
+              bugName={bug.bugName}
+              bugDescription={bug.bugDescription}
+              reportedBy={bug.reportedBy}
+              createdDate={bug.createdDate}
+              assignedTo={bug.assignedTo}
+              threatLevel={bug.threatLevel}
+              key={bug.bugName}
+            />
+          ))}
+        </table>
+
+        <BugReport handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
+      </div>
+
     );
   }
 }
