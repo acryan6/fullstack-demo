@@ -24,6 +24,16 @@ class App extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  // componentDidMount() {
+  //   fetch('localhost:3000/bugs')
+  //     .then(res => res.json())
+  //     .then(data => this.setState({
+  //       bugs: data,
+  //       filter: data,
+  //     }))
+  //     .catch(err => console.log(err));
+  // }
+
   filterHandler(filter) {
     this.setState({
       filter: filter === 'None' ? this.state.bugs : this.state.bugs.filter(bug => bug.threatLevel === filter),
@@ -69,12 +79,12 @@ class App extends React.Component {
     this.setState({
       bugs: [...this.state.bugs, {
         ...this.state.bugReport,
-        id: this.state.bugs.length + 1,
+        id: String(this.state.bugs.length + 1),
 
       }],
       filter: [...this.state.bugs, {
         ...this.state.bugReport,
-        id: this.state.bugs.length + 1,
+        id: String(this.state.bugs.length + 1),
       }],
     });
   }
