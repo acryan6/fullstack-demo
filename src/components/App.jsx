@@ -10,8 +10,8 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      filter: exampleData,
-      bugs: exampleData,
+      filter: [],
+      bugs: [],
       bugReport: {
         bugName: '',
         bugDescription: '',
@@ -28,6 +28,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+
     fetch('http://localhost:3000/bugs/')
       .then(res => res.json())
       .then(data => this.setState({
@@ -51,28 +52,28 @@ class App extends React.Component {
           ...prevState.bugReport,
           reportedBy: e.target.value,
         },
-      }), () => console.log(this.state.bugReport));
+      }));
     } else if (e.target.name === 'assignedTo') {
       this.setState(prevState => ({
         bugReport: {
           ...prevState.bugReport,
           assignedTo: e.target.value,
         },
-      }), () => console.log(this.state.bugReport));
+      }));
     } else if (e.target.name === 'threatLevel') {
       this.setState(prevState => ({
         bugReport: {
           ...prevState.bugReport,
           threatLevel: e.target.value,
         },
-      }), () => console.log(this.state.bugReport));
+      }));
     } else if (e.target.name === 'description') {
       this.setState(prevState => ({
         bugReport: {
           ...prevState.bugReport,
           bugDescription: e.target.value,
         },
-      }), () => console.log(this.state.bugReport));
+      }));
     }
   }
 
@@ -87,14 +88,19 @@ class App extends React.Component {
     this.setState({
       bugs: [...this.state.bugs, bug],
     }, () => {
-      console.log(bug);
       fetch('http://localhost:3000/bugs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
         },
         body: JSON.stringify(bug),
-      });
+      })
+
+        .then(() => {
+          console.log(this);
+          this.filterHandler('None');
+        })
+        .catch(err => console.log(err));
     });
   }
 

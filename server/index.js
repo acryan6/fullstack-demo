@@ -18,13 +18,14 @@ app.get('/bugs', (req, res) => {
 });
 
 app.post('/bugs', (req, res) => {
-  console.log(req.body);
+
   let newBug = new Bug(req.body);
   newBug.save((err) => {
     if (err) {
       return handleError(err);
     }
-  });
+  })
+  res.send(JSON.stringify(newBug));
 });
 
 module.exports = app;
