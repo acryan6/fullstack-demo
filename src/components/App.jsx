@@ -13,10 +13,13 @@ class App extends React.Component {
       filter: exampleData,
       bugs: exampleData,
       bugReport: {
+        bugName: '',
+        bugDescription: '',
         reportedBy: '',
+        createdDate: '',
         assignedTo: '',
         threatLevel: 'Low-Priority',
-        bugDescription: '',
+
       },
     };
     this.filterHandler = this.filterHandler.bind(this);
@@ -24,15 +27,15 @@ class App extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // componentDidMount() {
-  //   fetch('localhost:3000/bugs')
-  //     .then(res => res.json())
-  //     .then(data => this.setState({
-  //       bugs: data,
-  //       filter: data,
-  //     }))
-  //     .catch(err => console.log(err));
-  // }
+  componentDidMount() {
+    fetch('http://localhost:3000/bugs/')
+      .then(res => res.json())
+      .then(data => this.setState({
+        bugs: data,
+        filter: data,
+      }))
+      .catch(err => console.log(err));
+  }
 
   filterHandler(filter) {
     this.setState({
@@ -75,17 +78,23 @@ class App extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log('submit');
+    let d = new Date();
+    let bug = {
+      ...this.state.bugReport,
+      bugName: String(this.state.bugs.length + 1),
+      createdDate: `${String(d.getMonth() + 1)}/${d.getDate()}/${d.getFullYear()}`,
+    };
     this.setState({
-      bugs: [...this.state.bugs, {
-        ...this.state.bugReport,
-        id: String(this.state.bugs.length + 1),
-
-      }],
-      filter: [...this.state.bugs, {
-        ...this.state.bugReport,
-        id: String(this.state.bugs.length + 1),
-      }],
+      bugs: [...this.state.bugs, bug],
+    }, () => {
+      console.log(bug);
+      fetch('http://localhost:3000/bugs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify(bug),
+      });
     });
   }
 
