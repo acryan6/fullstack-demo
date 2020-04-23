@@ -10,7 +10,8 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      filter: [],
+      filter: 'None',
+      filterShown: [],
       bugs: [],
       bugReport: {
         bugName: '',
@@ -19,7 +20,6 @@ class App extends React.Component {
         createdDate: '',
         assignedTo: '',
         threatLevel: 'Low-Priority',
-
       },
     };
     this.filterHandler = this.filterHandler.bind(this);
@@ -33,14 +33,15 @@ class App extends React.Component {
       .then(res => res.json())
       .then(data => this.setState({
         bugs: data,
-        filter: data,
+        filterShown: data,
       }))
       .catch(err => console.log(err));
   }
 
   filterHandler(filter) {
     this.setState({
-      filter: filter === 'None' ? this.state.bugs : this.state.bugs.filter(bug => bug.threatLevel === filter),
+      filter: filter,
+      filterShown: filter === 'None' ? this.state.bugs : this.state.bugs.filter(bug => bug.threatLevel === filter),
     });
   }
 
@@ -97,8 +98,8 @@ class App extends React.Component {
       })
 
         .then(() => {
-          console.log(this);
-          this.filterHandler('None');
+          this.filterHandler(this.state.filter);
+
         })
         .catch(err => console.log(err));
     });
@@ -111,7 +112,7 @@ class App extends React.Component {
           <Nav
             filterHandler={this.filterHandler}
           />
-          {this.state.filter.map((bug) => (
+          {this.state.filterShown.map((bug) => (
             <BugTile
               bugName={bug.bugName}
               bugDescription={bug.bugDescription}
